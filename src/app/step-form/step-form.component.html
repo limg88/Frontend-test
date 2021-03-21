@@ -1,0 +1,99 @@
+<div id="page-wrap" class="container-fluid">
+  <div class="row">
+    <h1 class="col-md-12">Seminar <span>Registration</span></h1>
+  </div>
+  <div class="row mt-5 form-group mr-5">
+    <form [formGroup]="firstFormGroup" class="col-md-4 box">
+      <fieldset id="step_1">
+        <div class="inner">
+          <legend>Step 1</legend>
+          <div>
+            <label class="big-label" for="num_attendees">
+              How many people will be<br>attending?
+            </label>
+            <span>
+              <mat-form-field appearance="fill">
+                <mat-select formControlName="attendeeNumber" [(value)]="selected" (selectionChange)="onOptionsSelected($event.value)">
+                  <mat-option  *ngFor="let option of options" [value]="option.value" id="opt_{{option.value}}">
+                    {{option.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+          </div>
+          <br>
+          <div *ngIf="show" id="attendee_container">
+            <h3>Please provide full names:</h3>
+            <div id="attendee_{{attendee}}_wrap" class="inline-container"  style="--animation-order: {{attendee}};" *ngFor="let attendee of attendeeElements">
+              <label class="small-label" for="name_attendee_{{attendee}}">
+                Attendee <span>{{attendee}}</span> Name:
+              </label>
+              <span>
+                <input type="text" formControlName="attendeeInput_{{attendee}}" class="form-control no-radius" id="name_attendee_{{attendee}}">
+              </span>
+            </div>
+            <div id="step_result">
+              <img class="verified slide-in-top" [class.d-none]="secondFormEditable" src="../../assets/images/check.svg" alt="OK">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <form [formGroup]="secondFormGroup" class="col-md-4 box" [class.disabled]="secondFormEditable">
+      <fieldset id="step_2">
+        <div class="inner form-check">
+          <legend>Step 2</legend>
+          <p class="big-label">
+            Would you like your company<br>name on your badges?
+          </p>
+          <input class="form-check-input" type="radio" formControlName="companyRadio" [value]="true" id="company_name_toggle_on" name="companyRadio">
+          <label class="form-check-label big-label" for="company_name_toggle_on">Yes</label>
+          &emsp;
+          <input class="form-check-input" type="radio" formControlName="companyRadio" [value]="false" id="company_name_toggle_off" name="companyRadio">
+          <label class="form-check-label big-label" for="company_name_toggle_off">No</label>
+          <div *ngIf="showCompany" id="company_name_wrap" class="inline-container mt-3">
+            <label class="small-label" for="company_name">
+              Company Name:
+            </label>
+            <span>
+              <input class="form-control no-radius" formControlName="companyInput" type="text" id="company_name">
+            </span>
+          </div>
+          <div>
+            <p class="big-label mt-4">
+              Will anyone in your group require special accommodations?
+            </p>
+            <input class="form-check-input" type="radio" formControlName="accomodationRadio" [value]="true" id="special_accommodations_toggle_on"
+              name="accomodationRadio">
+            <label class="form-check-label big-label" for="special_accommodations_toggle_on">Yes</label>
+            &emsp;
+            <input class="form-check-input" type="radio" formControlName="accomodationRadio" [value]="false" id="special_accommodations_toggle_off"
+              name="accomodationRadio">
+            <label class="form-check-label big-label" for="special_accommodations_toggle_off">No</label>
+          </div>
+          <div *ngIf="showAccomodation" id="special_accommodations_wrap">
+            <label class="small-label" for="special_accomodations_text">
+              Please explain below:
+            </label>
+            <textarea class="form-control no-radius" rows="10" cols="10" formControlName="accomodationTextArea" id="special_accomodations_text"></textarea>
+          </div>
+          <div id="step_result">
+            <img class="verified slide-in-top" [class.d-none]="thirdFormEditable" src="../../assets/images/check.svg" alt="OK">
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <form  [formGroup]="thirdFormGroup" class="col-md-4 box" [class.disabled]="thirdFormEditable">
+      <fieldset id="step_3">
+        <div class="inner form-check">
+          <legend>Step 3</legend>
+          <label class="form-check-label big-label rock-label" [class.checked-custom]="!disableButton" for="rock">
+            Are you ready to rock?
+          </label>
+          <input class="form-check-input" type="checkbox" formControlName="rockCheck" id="rock">
+          <button  [disabled]="disableButton" class="btn btn-light mt-4" (click)="resetForms()" id="submit_button">Complete Registration</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
